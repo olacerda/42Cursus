@@ -3,106 +3,112 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: olacerda <olacerda@student.42.fr>          +#+  +:+       +#+        */
+/*   By: otlacerd <otlacerd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/07 14:46:49 by otlacerd          #+#    #+#             */
-/*   Updated: 2025/06/19 03:17:29 by olacerda         ###   ########.fr       */
+/*   Updated: 2025/08/15 05:08:37 by otlacerd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	new(char **line, char *buffed, int *buff, int readcount, int *endcount)
+char	*get_next_line(int fd)
 {
-    char        *newline;
-    int         index;
+	static char	buff[BUFFER_SIZE];
+	static int	x[] = {BUFFER_SIZE, 0, BUFFER_SIZE};
+	char		*line;
+	int			endall;
 
-    if (readcount <= 0)
-    	return ;
-	if (buff[START] >= readcount)
-		*(long *)buff = 0;
-	while (buffed[buff[END]] != '\n' && buff[END] < readcount)
-		(buff[END])++, (*endcount)++;
-    newline = malloc(((*endcount) + 1 + (buffed[(buff[END])] == '\n')) * sizeof(char));
-    if (!newline)
+	if (fd < 0 || BUFFER_SIZE <= 0 || x[READBYTES] < 0)
+		return (NULL);
+	if (x[READBYTES] <= 0 || x[START] >= x[READBYTES])
+	{
+		x[START] = BUFFER_SIZE;
+		x[END] = 0;
+		x[READBYTES] = BUFFER_SIZE;
+	}
+	line = NULL;
+	endall = 0;
+	while ((buff[x[END]] != '\n' || line == NULL) && x[READBYTES] > 0)
+	{
+		if (x[START] >= x[READBYTES])
+			x[READBYTES] = read(fd, buff, BUFFER_SIZE);
+		if (x[READBYTES] == -1)
+			return (x[READBYTES] = 0, x[START] = BUFFER_SIZE, x[END] = 0,
+				free(line), NULL);
+		new(&line, buff, x, &endall);
+	}
+	return (x[END] += (buff[x[END]] == '\n'), line);
+}
+
+void	new(char **line, char *buff, int *x, int *endall)
+{
+	char	*newline;
+	int		index;
+
+	if (x[READBYTES] <= 0)
 		return ;
-    index = -1;
-    while (++index < (*endcount - buff[END]))
+	if (x[START] >= x[READBYTES])
+		*(long *)x = 0;
+	while (buff[x[END]] != '\n' && x[END] < x[READBYTES] && ++(x[END]))
+		(*endall)++;
+	newline = malloc(((*endall) + 1 + (buff[(x[END])] == '\n')) * sizeof(char));
+	if (!newline)
+		return ;
+	index = -1;
+	while (++index < (*endall - x[END]))
 		newline[index] = (*line)[index];
-    while (buff[START] <= (buff[END]))
-		newline[index++] = buffed[(buff[START])++];
-    newline[index] = '\0';
-    free(*line);
+	while (x[START] <= (x[END]) && x[START] < x[READBYTES])
+		newline[index++] = buff[(x[START])++];
+	newline[index] = '\0';
+	free(*line);
 	*line = newline;
 }
 
-char *get_next_line(int fd)
+
+int	main(void)
 {
-    static char buffed[BUFFER_SIZE];
-    static int  readcount = BUFFER_SIZE;
-    static int	buff[] = {BUFFER_SIZE, 0};
-    char 		*line;
-    int         endcount;
-	
-	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (NULL);
-	if (readcount == 0)
-	{
-		readcount = BUFFER_SIZE;
-		buff[START] = BUFFER_SIZE;
-		buff[END] = 0;
-	}
-	line = NULL;
-	endcount = 0;
-    while ((buffed[buff[END]] != '\n' && readcount > 0) || \
-		((line == NULL || line[endcount] != '\n') && readcount > 0))
-    {
-        if (buff[START] >= readcount)
-        		readcount = read(fd, buffed, BUFFER_SIZE);
-		new(&line, buffed, buff, readcount, &endcount);
-    }
-	buff[END] += (buffed[buff[END]] == '\n');
-    return (line);
-}
+	write(3, "teste", 5);
 
-int main(void)
-{
-    int fd;
+	// fd = open("./teste1.txt", O_RDONLY);
+	// printf("open %i\n", fd);
+	// char *line1 = get_next_line(fd);
+	// printf("GET1:  %s\n", line1);
+	// free(line1);
+	// char *line2 = get_next_line(fd);
+	// printf("GET2:  %s\n", line2);
+	// free(line2);
+	// char *line3 = get_next_line(fd);
+	// printf("GET3:  %s\n", line3);
+	// free(line3);
+	// char *line4 = get_next_line(fd);
+	// printf("GET4:  %s\n", line4);
+	// free(line4);
+	// char *line5 = get_next_line(fd);
+	// printf("GET5:  %s\n\n", line5);
+	// free(line5);
+	// printf("After close:\n\n");
 
-    fd = open("./test.txt", O_RDONLY);
-	printf("open %i\n", fd);
-    char *line1 = get_next_line(fd);
-    printf("GET1:  %s\n\n\n", line1);
-    
-    char *line2 = get_next_line(fd);
-    printf("GET2:  %s\n\n\n", line2);
-    
-    char *line3 = get_next_line(fd);
-    printf("GET3:  %s\n\n\n", line3);
-	
-    char *line4 = get_next_line(fd);
-    printf("GET4:  %s\n\n\n", line4);
-	
-    char *line5 = get_next_line(fd);
-    printf("GET5:  %s\n\n\n", line5);
+	// close(fd);
+	// fd = open("./teste1.txt", O_RDONLY);
+	// printf("open %i\n", fd);
+	// line1 = get_next_line(fd);
+	// printf("GET1:  %s\n", line1);
 
-	printf("After close:\n\n\n");
-	
-	close(fd);
-    fd = open("./test.txt", O_RDONLY);
-	printf("open %i\n", fd);
-    line1 = get_next_line(fd);
-    printf("GET1:  %s\n\n", line1);
-    
-    line2 = get_next_line(fd);
-    printf("GET2:  %s\n\n\n", line2);
-    
-    line3 = get_next_line(fd);
-    printf("GET3:  %s\n\n\n", line3);
-	
-    line4 = get_next_line(fd);
-    printf("GET4:  %s\n\n\n", line4);
-	
-    line5 = get_next_line(fd);
-    printf("GET5:  %s\n\n\n", line5);
+	// line2 = get_next_line(fd);
+	// printf("GET2:  %s\n", line2);
+
+	// line3 = get_next_line(fd);
+	// printf("GET3:  %s\n", line3);
+
+	// line4 = get_next_line(fd);
+	// printf("GET4:  %s\n", line4);
+
+	// line5 = get_next_line(fd);
+	// printf("GET5:  %s\n\n", line5);
+	// free(line1);
+	// free(line2);
+	// free(line3);
+	// free(line4);
+	// free(line5);
 }
