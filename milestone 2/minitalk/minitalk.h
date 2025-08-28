@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minitalk.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otlacerd <otlacerd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: olacerda <olacerda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 23:54:07 by otlacerd          #+#    #+#             */
-/*   Updated: 2025/08/16 23:33:12 by otlacerd         ###   ########.fr       */
+/*   Updated: 2025/08/28 15:17:50 by olacerda         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #ifndef MINITALK_H
 # define MINITALK_H
@@ -19,6 +19,8 @@
 # include <stdio.h>
 
 void	ft_putnumber(int number);
+void	putnbr2(int	nbr);
+void	myhandler(int sig);
 int		ft_atoi(char *nptr);
 int		ft_strlen(char *string);
 

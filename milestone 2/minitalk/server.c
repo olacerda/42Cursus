@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otlacerd <otlacerd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: olacerda <olacerda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 21:37:29 by otlacerd          #+#    #+#             */
-/*   Updated: 2025/08/17 00:01:50 by otlacerd         ###   ########.fr       */
+/*   Updated: 2025/08/27 07:47:23 by olacerda         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "minitalk.h"
 
@@ -45,7 +45,7 @@ void	wbits(int *intcount, unsigned char **string, int *strsize, int sig)
 	}
 	if (index == *strsize)
 	{
-		write(1, *string, *strsize);
+		write(1, *string, (*strsize + (*strsize == 0)));
 		write(1, "\n", 1);
 		*intcount = 0;
 		charcount = 0;
@@ -73,12 +73,12 @@ void	handler(int sig)
 	}
 	if (intcount == 32)
 	{
-		string = malloc(strsize * sizeof(char));
+		string = malloc(strsize + 1 * sizeof(char));
 		if (!string)
 			return ;
 		count = -1;
-		while (++count < strsize)
-			string[count] = 0;
+		while (++count <= strsize)
+			string[count] = '\0';
 		intcount = 42;
 	}
 	wbits(&intcount, &string, &strsize, sig);

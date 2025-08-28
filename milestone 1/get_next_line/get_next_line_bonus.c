@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otlacerd <otlacerd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: olacerda <olacerda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 18:37:25 by otlacerd          #+#    #+#             */
-/*   Updated: 2025/07/18 19:55:00 by otlacerd         ###   ########.fr       */
+/*   Updated: 2025/08/27 10:40:39 by olacerda         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "get_next_line_bonus.h"
 
@@ -20,7 +20,7 @@ char	*get_next_line_bonus(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || BUFFER_SIZE > MAX_BUFFERSIZE)
 		return (NULL);
-	if (x[fd].readbytes == 0 || x[fd].start >= x[fd].readbytes)
+	if (x[fd].readbytes <= 0 || x[fd].start >= x[fd].readbytes)
 		x[fd] = (t_g){BUFFER_SIZE, 0, BUFFER_SIZE, {0}};
 	ln = NULL;
 	endtotal = 0;
@@ -28,135 +28,132 @@ char	*get_next_line_bonus(int fd)
 	{
 		if (x[fd].start >= x[fd].readbytes)
 			x[fd].readbytes = read(fd, x[fd].buff, BUFFER_SIZE);
-		if (x[fd].readbytes == -1)
-			return (x[fd] = (t_g){BUFFER_SIZE, 0, BUFFER_SIZE, {}},
-				free(ln), NULL);
-		liner(&ln, &x[fd], &endtotal);
+		ln = liner(&ln, &x[fd], &endtotal);
 	}
 	return (x[fd].end += (x[fd].buff[x[fd].end] == '\n'), ln);
 }
 
-// int main(void)
-// {
-//     char    *line;
+int main(void)
+{
+    char    *line;
 
-//     while (1)
-//     {
-//         line = get_next_line_bonus(0);
-//         if (!line)
-//             break ;
-// 		printf("You wrote: %s", line);
-//         free(line);
-//     }
-// 	int fd1;
-// 	int	fd2;
-// 	int	fd3;
+    while (1)
+    {
+        line = get_next_line_bonus(0);
+        if (!line)
+            break ;
+		printf("You wrote: %s", line);
+        free(line);
+    }
+	int fd1;
+	int	fd2;
+	int	fd3;
 
-//     fd1 = open("./teste1.txt", O_RDONLY);
-// 	fd2 = open("./teste2.txt", O_RDONLY);
-// 	fd3 = open("./teste3.txt", O_RDONLY);
+    fd1 = open("./teste1.txt", O_RDONLY);
+	fd2 = open("./teste2.txt", O_RDONLY);
+	fd3 = open("./teste3.txt", O_RDONLY);
 
-// 	char *line1 = get_next_line_bonus(fd1);
-//     printf("GET1:  %s\n", line1);
-// 	free(line1);
-//     char *line2 = get_next_line_bonus(fd2);
-//     printf("GET2:  %s\n", line2);
-// 	free(line2);
-//     char *line3 = get_next_line_bonus(fd3);
-//     printf("GET3:  %s\n", line3);
-// 	free(line3);
-// 	line1 = get_next_line_bonus(fd1);
-//     printf("GET1:  %s\n", line1);
-// 	free(line1);
-//     line2 = get_next_line_bonus(fd2);
-//     printf("GET2:  %s\n", line2);
-// 	free(line2);
-//     line3 = get_next_line_bonus(fd3);
-//     printf("GET3:  %s\n", line3);
-// 	free(line3);
-// 	line1 = get_next_line_bonus(fd1);
-//     printf("GET1:  %s\n", line1);
-// 	free(line1);
-//     line2 = get_next_line_bonus(fd2);
-//     printf("GET2:  %s\n", line2);
-// 	free(line2);
-//     line3 = get_next_line_bonus(fd3);
-//     printf("GET3:  %s\n", line3);
-// 	free(line3);
-// 	line1 = get_next_line_bonus(fd1);
-//     printf("GET1:  %s\n", line1);
-// 	free(line1);
-//     line2 = get_next_line_bonus(fd2);
-//     printf("GET2:  %s\n", line2);
-// 	free(line2);
-//     line3 = get_next_line_bonus(fd3);
-//     printf("GET3:  %s\n", line3);
-// 	free(line3);
-// 	line1 = get_next_line_bonus(fd1);
-//     printf("GET1:  %s\n", line1);
-// 	free(line1);
-//     line2 = get_next_line_bonus(fd2);
-//     printf("GET2:  %s\n", line2);
-// 	free(line2);
-//     line3 = get_next_line_bonus(fd3);
-//     printf("GET3:  %s\n", line3);
-// 	free(line3);
+	char *line1 = get_next_line_bonus(fd1);
+    printf("GET1:  %s\n", line1);
+	free(line1);
+    char *line2 = get_next_line_bonus(fd2);
+    printf("GET2:  %s\n", line2);
+	free(line2);
+    char *line3 = get_next_line_bonus(fd3);
+    printf("GET3:  %s\n", line3);
+	free(line3);
+	line1 = get_next_line_bonus(fd1);
+    printf("GET1:  %s\n", line1);
+	free(line1);
+    line2 = get_next_line_bonus(fd2);
+    printf("GET2:  %s\n", line2);
+	free(line2);
+    line3 = get_next_line_bonus(fd3);
+    printf("GET3:  %s\n", line3);
+	free(line3);
+	line1 = get_next_line_bonus(fd1);
+    printf("GET1:  %s\n", line1);
+	free(line1);
+    line2 = get_next_line_bonus(fd2);
+    printf("GET2:  %s\n", line2);
+	free(line2);
+    line3 = get_next_line_bonus(fd3);
+    printf("GET3:  %s\n", line3);
+	free(line3);
+	line1 = get_next_line_bonus(fd1);
+    printf("GET1:  %s\n", line1);
+	free(line1);
+    line2 = get_next_line_bonus(fd2);
+    printf("GET2:  %s\n", line2);
+	free(line2);
+    line3 = get_next_line_bonus(fd3);
+    printf("GET3:  %s\n", line3);
+	free(line3);
+	line1 = get_next_line_bonus(fd1);
+    printf("GET1:  %s\n", line1);
+	free(line1);
+    line2 = get_next_line_bonus(fd2);
+    printf("GET2:  %s\n", line2);
+	free(line2);
+    line3 = get_next_line_bonus(fd3);
+    printf("GET3:  %s\n", line3);
+	free(line3);
 
-//     close(fd1);
-//     close(fd2);
-//     close(fd3);
-// 	printf("\n\nAfter close\n\n");
+    close(fd1);
+    close(fd2);
+    close(fd3);
+	printf("\n\nAfter close\n\n");
 
-//     fd1 = open("./teste1.txt", O_RDONLY);
-// 	fd2 = open("./teste2.txt", O_RDONLY);
-// 	fd3 = open("./teste3.txt", O_RDONLY);
+    fd1 = open("./teste1.txt", O_RDONLY);
+	fd2 = open("./teste2.txt", O_RDONLY);
+	fd3 = open("./teste3.txt", O_RDONLY);
 
-// 	line1 = get_next_line_bonus(fd1);
-//     printf("GET1:  %s\n", line1);
-// 	free(line1);
-//     line2 = get_next_line_bonus(fd2);
-//     printf("GET2:  %s\n", line2);
-// 	free(line2);
-//     line3 = get_next_line_bonus(fd3);
-//     printf("GET3:  %s\n", line3);
-// 	free(line3);
-// 	line1 = get_next_line_bonus(fd1);
-//     printf("GET1:  %s\n", line1);
-// 	free(line1);
-//     line2 = get_next_line_bonus(fd2);
-//     printf("GET2:  %s\n", line2);
-// 	free(line2);
-//     line3 = get_next_line_bonus(fd3);
-//     printf("GET3:  %s\n", line3);
-// 	free(line3);
-// 	line1 = get_next_line_bonus(fd1);
-//     printf("GET1:  %s\n", line1);
-// 	free(line1);
-//     line2 = get_next_line_bonus(fd2);
-//     printf("GET2:  %s\n", line2);
-// 	free(line2);
-//     line3 = get_next_line_bonus(fd3);
-//     printf("GET3:  %s\n", line3);
-// 	free(line3);
-// 	line1 = get_next_line_bonus(fd1);
-//     printf("GET1:  %s\n", line1);
-// 	free(line1);
-//     line2 = get_next_line_bonus(fd2);
-//     printf("GET2:  %s\n", line2);
-// 	free(line2);
-//     line3 = get_next_line_bonus(fd3);
-//     printf("GET3:  %s\n", line3);
-// 	free(line3);
-// 	line1 = get_next_line_bonus(fd1);
-//     printf("GET1:  %s\n", line1);
-// 	free(line1);
-//     line2 = get_next_line_bonus(fd2);
-//     printf("GET2:  %s\n", line2);
-// 	free(line2);
-//     line3 = get_next_line_bonus(fd3);
-//     printf("GET3:  %s\n", line3);
-// 	free(line3);
-// 	close(fd1);
-// 	close(fd2);
-// 	close(fd3);
-// }
+	line1 = get_next_line_bonus(fd1);
+    printf("GET1:  %s\n", line1);
+	free(line1);
+    line2 = get_next_line_bonus(fd2);
+    printf("GET2:  %s\n", line2);
+	free(line2);
+    line3 = get_next_line_bonus(fd3);
+    printf("GET3:  %s\n", line3);
+	free(line3);
+	line1 = get_next_line_bonus(fd1);
+    printf("GET1:  %s\n", line1);
+	free(line1);
+    line2 = get_next_line_bonus(fd2);
+    printf("GET2:  %s\n", line2);
+	free(line2);
+    line3 = get_next_line_bonus(fd3);
+    printf("GET3:  %s\n", line3);
+	free(line3);
+	line1 = get_next_line_bonus(fd1);
+    printf("GET1:  %s\n", line1);
+	free(line1);
+    line2 = get_next_line_bonus(fd2);
+    printf("GET2:  %s\n", line2);
+	free(line2);
+    line3 = get_next_line_bonus(fd3);
+    printf("GET3:  %s\n", line3);
+	free(line3);
+	line1 = get_next_line_bonus(fd1);
+    printf("GET1:  %s\n", line1);
+	free(line1);
+    line2 = get_next_line_bonus(fd2);
+    printf("GET2:  %s\n", line2);
+	free(line2);
+    line3 = get_next_line_bonus(fd3);
+    printf("GET3:  %s\n", line3);
+	free(line3);
+	line1 = get_next_line_bonus(fd1);
+    printf("GET1:  %s\n", line1);
+	free(line1);
+    line2 = get_next_line_bonus(fd2);
+    printf("GET2:  %s\n", line2);
+	free(line2);
+    line3 = get_next_line_bonus(fd3);
+    printf("GET3:  %s\n", line3);
+	free(line3);
+	close(fd1);
+	close(fd2);
+	close(fd3);
+}

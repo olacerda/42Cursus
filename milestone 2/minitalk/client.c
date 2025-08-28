@@ -1,19 +1,18 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   client.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otlacerd <otlacerd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: olacerda <olacerda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 23:53:38 by otlacerd          #+#    #+#             */
-/*   Updated: 2025/08/17 00:31:17 by otlacerd         ###   ########.fr       */
+/*   Updated: 2025/08/28 16:28:07 by olacerda         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "minitalk.h"
-
-// 	else if (argc > 3)
-// 		string = ft_stringjoin(argc, argv);
+// else
+// 	bitworker((unsigned int)ft_atoi(argv[1]), ft_stringjoin(argc, argv));
 // int	joinsize(int size, char **string)
 // {
 // 	int	result;
@@ -60,6 +59,20 @@
 // 	return (result);
 // }
 
+void	myhandler(int nbr)
+{
+	if (nbr == 12)
+	{
+		write(1, "Good choice.\n *Process finished**\n", 34);
+		exit(1);
+	}
+	if (nbr == 10)
+		return ;
+	else if (nbr > 0)
+		myhandler(nbr / 10);
+	write(1, &"0123456789"[nbr % 10], 1);	
+}
+
 int	ft_atoi(char *string)
 {
 	int	result;
@@ -84,37 +97,41 @@ int	ft_atoi(char *string)
 	return (result);
 }
 
-void	sbits(char *string, int charcount, int pid, int killcheck)
+void	sbits(char *string, int size, int pid, int killcheck)
 {
-	int	index;
+	int		index;
+	char	charcount;
 
 	index = 0;
-	while (string[index] != '\0')
+	if (size == 0)
+		kill(pid, SIGUSR2);
+	else
 	{
-		charcount = 0;
-		while (charcount < 8)
+		while (string[index] != '\0')
 		{
-			if (((string[index]) >> charcount) & 1)
-				kill(pid, SIGUSR1);
-			else
-				kill(pid, SIGUSR2);
-			if (killcheck < 0)
-				exit (1);
-			charcount++;
-			usleep(350);
-		}
-		index++;
+			charcount = 0;
+			while (charcount < 8)
+			{
+				if (((string[index]) >> charcount) & 1)
+					kill(pid, SIGUSR1);
+				else
+					kill(pid, SIGUSR2);
+				if (killcheck < 0)
+					exit (1);
+				charcount++;
+				usleep(350);
+			}
+			index++;
+		}		
 	}
 }
 
 void	bitworker(int pid, char *string)
 {
-	int	charcount;
 	int	intcount;
 	int	size;
 	int	killcheck;
 
-	charcount = 0;
 	intcount = 0;
 	size = 0;
 	killcheck = 0;
@@ -133,27 +150,37 @@ void	bitworker(int pid, char *string)
 		intcount++;
 		usleep(350);
 	}
-	sbits(string, charcount, pid, killcheck);
+	sbits(string, size, pid, killcheck);
 }
 
 int	main(int argc, char *argv[])
 {
-	char	*string;
-	int		pid;
+	int		mypid;
 
-	pid = ft_atoi(argv[1]);
-	string = NULL;
-	if (pid <= 0)
+	signal(SIGUSR1, myhandler);
+	signal(SIGUSR2, myhandler);
+	mypid = getpid();
+	if (argc != 3)
+		write(2, "\nWrong amount of arguments!!!\n\n", 31);
+	else
 	{
-		write(2, "Dangerous PID for this project!!! Try another.\n", 47);
-		return (1);
+		if (ft_atoi(argv[1]) <= 0)
+		{
+			write(2, "\nDangerous PID for this project!\n\nContinue?...", 45);
+			write(2, "\n1.(Yes) Type: \"kill -10 ", 26);
+			myhandler(mypid);
+			write(2, "\" in other terminal. \n2.(No)  Type: \"kill -12 ", 46);
+			myhandler(mypid);
+			write(2, "\" in other terminal. (or Ctrl + C)\n", 35);
+			pause();
+		}
+		if (ft_atoi(argv[1]) <= 0)
+		{
+			write(2, "\n!!Please be more careful with the evaluation!!!\n", 43);
+			return (1);
+		}
+		if (argc == 3)
+			bitworker((unsigned int)ft_atoi(argv[1]), argv[2]);
 	}
-	if (argc == 3)
-		string = argv[2];
-	else if (argc != 3)
-	{
-		write(2, "Wrong amount of arguments!!!\n", 29);
-		return (1);
-	}
-	bitworker((unsigned int)pid, string);
+	return (1);
 }
