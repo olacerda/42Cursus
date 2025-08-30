@@ -1,12 +1,12 @@
 /******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_ULTIMATE.h                           :+:      :+:    :+:   */
+/*   temp2.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: olacerda <olacerda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/24 18:38:18 by otlacerd          #+#    #+#             */
-/*   Updated: 2025/08/28 13:13:56 by olacerda         ###   ########.fr       */
+/*   Created: 2025/08/29 12:46:49 by olacerda          #+#    #+#             */
+/*   Updated: 2025/08/30 16:35:16 by olacerda         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -24,19 +24,26 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <fcntl.h>
-# include <sys/select.h>	
+# include <sys/select.h>
 
 typedef struct s_g
 {
-	int		s;
-	int		e;
-	int		t;
-	int		b;
-	char	*ln;
-	char	bf[BUFFER_SIZE];
-	int		i;
+	int		st; 
+	int		en;
+	char	*lin;
+	int		id;
+	int		te;
+	int		rb;
+	char	buf[BUFFER_SIZE];
 	char	*nl;
 }	t_g;
+
+typedef struct s_z
+{
+	char	*string;
+	int		start;
+	int		end;
+} t_z;
 
 char	*get_next_line(int fd);
 

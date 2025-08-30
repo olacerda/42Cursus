@@ -10,7 +10,7 @@
 /*                                                                            */
 /******************************************************************************/
 
-#include "get_next_line_ULTIMATE.h"
+#include "getnextline_bonus_FINAL.h"
 
 char	*get_next_line(int fd)
 {
@@ -22,8 +22,8 @@ char	*get_next_line(int fd)
 		x[fd] = (t_g){1, 0, 0, 1, NULL, {0}, 0, NULL};
 	while ((x[fd].ln == NULL || x[fd].bf[x[fd].e] != 10) && x[fd].b > 0)
 	{
-		(x[fd].s >= x[fd].b) && (x[fd].b = read(fd, x[fd].bf, BUFFER_SIZE));
 		(x[fd].s >= x[fd].b) && (*(long *)&(x[fd]) = 0);
+		(x[fd].s >= x[fd].b) && (x[fd].b = read(fd, x[fd].bf, BUFFER_SIZE));
 		while ((x[fd].bf[x[fd].e] != 10) && (x[fd].e < x[fd].b) && ++(x[fd].e) && ++(x[fd].t));
 			x[fd].i = -1;
 		x[fd].nl = malloc(x[fd].t + 1 + (x[fd].bf[x[fd].e] == 10) * sizeof(char));

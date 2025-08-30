@@ -16,15 +16,17 @@ char	*get_next_line(int fd)
 {
 	static t_g	x[FD_SETSIZE];
 
-	if ((fd < 0 || BUFFER_SIZE <= 0 || BUFFER_SIZE > MAX))
+	if ((x[fd].nln = NULL) && (fd < 0 || BUFFER_SIZE <= 0 || BUFFER_SIZE > MAX))
 		return (NULL);
-	x[fd].ln = NULL;
-	if (x[fd].byt <= 0 || x[fd].sta >= x[fd].byt)
-		x[fd] = (t_g){BUFFER_SIZE, 0, 0, 1, NULL, {0}, &x[fd].buf[0], &x[fd].tmp, 0, NULL};
+	if (!(x[fd].ln = NULL) && (x[fd].byt <= 0 || x[fd].sta >= x[fd].byt))
+		x[fd] = (t_g){1, 0, 0, 1, NULL, {0}, &x[fd].buf[0], &x[fd].tmp, 0, NULL};
 	while ((x[fd].ln == NULL || x[fd].buf[0][x[fd].end] != 10) && x[fd].byt > 0)
 	{
-		((x[fd].sta >= x[fd].byt)) && (x[fd].byt = read(fd, x[fd].buf[0], BUFFER_SIZE));
-		((x[fd].sta >= x[fd].byt)) && ((*(long *)&(x[fd]) = 0));
+		if (x[fd].sta >= x[fd].byt)
+		{
+			x[fd].byt = read(fd, x[fd].buf[0], BUFFER_SIZE);
+			(*(long *)&(x[fd]) = 0);
+		}
 		while ((x[fd].buf[0][x[fd].end] != 10) && (x[fd].end < x[fd].byt) && ++(x[fd].end))
 			(x[fd].tot)++;
 		x[fd].nln = malloc(x[fd].tot + 1 + (x[fd].buf[0][x[fd].end] == 10) * sizeof(char));
@@ -38,7 +40,7 @@ char	*get_next_line(int fd)
 		((x[fd].byt > 0) && (x[fd].ln = x[fd].nln));
 	}
 	return (((x[fd].ln != NULL) && (x[fd].nln[x[fd].idx] = 0)), x[fd].end += 
-		(x[fd].buf[0][x[fd].end]) == 10, x[fd].tot = 0, x[fd].nln = NULL, x[fd].ln);
+	(x[fd].buf[0][x[fd].end]) == 10, x[fd].tot = 0, x[fd].ln);
 }
 
 int main(void)
