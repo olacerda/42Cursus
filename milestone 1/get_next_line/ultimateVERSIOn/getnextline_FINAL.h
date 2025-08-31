@@ -6,7 +6,7 @@
 /*   By: olacerda <olacerda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 17:01:33 by olacerda          #+#    #+#             */
-/*   Updated: 2025/08/30 17:01:35 by olacerda         ###   ########.fr       */
+/*   Updated: 2025/08/31 18:12:18 by olacerda         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_BONUS_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 42
+#  define BUFFER_SIZE 5
 # endif
 # ifndef MAX
 #  define MAX 4000000
@@ -32,18 +32,27 @@ typedef struct s_g
 	int		index;
 	int		start; 
 	int		end;
+	char	*nline;
 	int		tend;
 	int		rb;
 	char	buff[BUFFER_SIZE];
-	char	*nline;
 }	t_g;
+
+typedef struct s_w
+{
+	char	*line;
+	int		index;
+	int		start; 
+	int		end;
+	char	*nline;
+} t_w;
 
 typedef struct s_z
 {
-	char	*string;
+	char	*s;
 	int		index;
-	int		s;
 } t_z;
+
 
 char	*get_next_line(int fd);
 

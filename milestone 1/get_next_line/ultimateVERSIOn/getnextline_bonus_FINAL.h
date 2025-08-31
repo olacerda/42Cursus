@@ -6,7 +6,7 @@
 /*   By: olacerda <olacerda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 18:38:18 by otlacerd          #+#    #+#             */
-/*   Updated: 2025/08/30 18:55:31 by olacerda         ###   ########.fr       */
+/*   Updated: 2025/08/31 20:39:01 by olacerda         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -15,6 +15,9 @@
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
+# endif
+# ifndef BF
+#  define BF BUFFER_SIZE
 # endif
 # ifndef MAX
 #  define MAX 4000000
@@ -28,23 +31,24 @@
 
 typedef struct s_g
 {
-	char	*line;
-	int		i;
-	int		t;
 	int		s; 
 	int		e;
-	int		rb;
-	char	b[BUFFER_SIZE];
 	char	*n;
+	int		t;
+	char	*ln;
+	int		i;
+	char	b[BUFFER_SIZE];
+	int		rb;
 }	t_g;
 
-typedef struct s_z
+typedef struct s_w
 {
-	char	*string;
-	int		index;
-	int		tend;
-	int		s;
-} t_z;
+	int		start; 
+	int		end;
+	char	*nline;
+	int		t;
+	char	*line;
+} t_w;
 
 typedef struct s_y
 {

@@ -16,29 +16,29 @@ char	*get_next_line(int fd)
 {
 	static t_g	x[FD_SETSIZE];
 
-	*(t_z *)&x[fd] = (t_z){NULL, x[fd].i, 0, x[fd].s};
-	if ((fd < 0 || BUFFER_SIZE <= 0 || BUFFER_SIZE > MAX))
+	*(t_w *)&x[fd] = (t_w){x[fd].s, x[fd].e += x[fd].b[x[fd].e] == 10, 0, 0, 0};
+	if ((fd < 0 || BF <= 0 || BF > MAX))
 		return (NULL);
 	if (x[fd].rb <= 0 || x[fd].s >= x[fd].rb)
-		x[fd] = (t_g){NULL, -1, BUFFER_SIZE, BUFFER_SIZE, 0, 1, {0}, NULL};
-	while ((x[fd].line == NULL || x[fd].b[x[fd].e] != 10) && x[fd].rb > 0)
+		x[fd] = (t_g){BF, BF, 0, 0, 0, -1, {0}, 1};
+	while ((x[fd].ln == NULL || x[fd].b[x[fd].e] != 10) && x[fd].rb > 0)
 	{
-		((x[fd].s >= x[fd].rb)) && (x[fd].rb = read(fd, x[fd].b, BUFFER_SIZE));
-		(x[fd].s >= x[fd].rb) && (*(long *)&((*(t_z *)&x[fd]).s) = 0);
+		(void)((x[fd].s >= x[fd].rb) && (x[fd].rb = read(fd, x[fd].b, BF)));
+		(void)((x[fd].s >= x[fd].rb) && (*(long *)&(x[fd].s) = 0));
 		while ((x[fd].b[x[fd].e] != 10) && (x[fd].e < x[fd].rb) && ++(x[fd].e))
 			++(x[fd].t);
 		x[fd].n = malloc(x[fd].t + 1 + (x[fd].b[x[fd].e] == 10) * sizeof(char));
 		if (!x[fd].n)
 			return (NULL);
-		while (++x[fd].i < (x[fd].t - x[fd].e) && x[fd].line && x[fd].rb > 0)
-			x[fd].n[x[fd].i] = (x[fd].line)[x[fd].i];
+		while (++x[fd].i < (x[fd].t - x[fd].e) && x[fd].ln && x[fd].rb > 0)
+			x[fd].n[x[fd].i] = (x[fd].ln)[x[fd].i];
 		while ((x[fd].s <= x[fd].e) && (x[fd].s < x[fd].rb) && x[fd].rb > 0)
 			x[fd].n[x[fd].i++] = x[fd].b[x[fd].s++];
 		x[fd].n[x[fd].i] = '\0';
-		free(x[fd].line);
-		*(t_y *)&(x[fd]) = (t_y){(void *)((long)x[fd].n * (x[fd].rb > 0)), -1};
+		free(x[fd].ln);
+		*(t_y *)&x[fd].ln = (t_y){(void *)((long)x[fd].n * (x[fd].rb > 0)), -1};
 	}
-	return (x[fd].e += (x[fd].b[x[fd].e]) == 10, x[fd].n = NULL, x[fd].line);
+	return (free((void *)((long)x[fd].n * (x[fd].rb <= 0))), x[fd].ln);
 }
 
 int main(void)

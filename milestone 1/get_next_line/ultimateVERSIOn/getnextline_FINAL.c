@@ -6,7 +6,7 @@
 /*   By: olacerda <olacerda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/30 17:00:46 by olacerda          #+#    #+#             */
-/*   Updated: 2025/08/30 17:01:02 by olacerda         ###   ########.fr       */
+/*   Updated: 2025/08/31 20:12:21 by olacerda         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -16,15 +16,15 @@ char	*get_next_line(int fd)
 {
 	static t_g	x;
 
-	x.line = NULL;
+	*(t_w *)&x = (t_w){NULL, -1, x.start, x.end += (x.buff[x.end]) == 10, NULL};
 	if ((fd < 0 || BUFFER_SIZE <= 0 || BUFFER_SIZE > MAX))
 		return (NULL);
 	if (x.rb <= 0 || x.start >= x.rb)
-		x = (t_g){NULL, -1, BUFFER_SIZE, BUFFER_SIZE, 0, 1, {0}, NULL};
+		x = (t_g){NULL, -1, BUFFER_SIZE, BUFFER_SIZE, NULL, 0, 1, {0}};
 	while ((x.line == NULL || x.buff[x.end] != 10) && x.rb > 0)
 	{
-		((x.start >= x.rb)) && (x.rb = read(fd, x.buff, BUFFER_SIZE));
-		(x.start >= x.rb) && (*(long *)&((*(t_z *)&x).s) = 0);
+		(void)((x.start >= x.rb) && (x.rb = read(fd, x.buff, BUFFER_SIZE)));
+		(void)((x.start >= x.rb) && (*(long *)&x.start = 0));
 		while ((x.buff[x.end] != 10) && (x.end < x.rb) && ++(x.end))
 			++(x.tend);
 		x.nline = malloc(x.tend + 1 + (x.buff[x.end] == 10) * sizeof(char));
@@ -36,9 +36,9 @@ char	*get_next_line(int fd)
 			x.nline[x.index++] = x.buff[x.start++];
 		x.nline[x.index] = '\0';
 		free(x.line);
-		*(t_z *)&(x) = (t_z){(void *)((long)x.nline * (x.rb > 0)), -1, x.start};
+		*(t_z *)&x = (t_z){(void *)((long)x.nline * (x.rb > 0)), -1};
 	}
-	return (x.end += (x.buff[x.end]) == 10, x.tend = 0, x.nline = NULL, x.line);
+	return (free((char *)((long)x.nline * (x.rb <= 0))), x.tend = 0, x.line);
 }
 
 int	main(void)
