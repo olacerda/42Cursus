@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
+/*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: otlacerd <otlacerd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/24 18:38:18 by otlacerd          #+#    #+#             */
-/*   Updated: 2025/06/25 22:22:33 by otlacerd         ###   ########.fr       */
+/*   Created: 2025/09/04 22:09:23 by otlacerd          #+#    #+#             */
+/*   Updated: 2025/09/07 08:58:06 by otlacerd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_BONUS_H
-# define GET_NEXT_LINE_BONUS_H
+#ifndef UTILS_H
+# define UTILS_H
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
@@ -24,7 +24,8 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <fcntl.h>
-# include <sys/select.h>	
+# include <sys/select.h>
+# include "../so_long.h"	
 
 typedef struct s_g
 {
@@ -34,7 +35,22 @@ typedef struct s_g
 	char	buff[BUFFER_SIZE];
 }	t_g;
 
-char	*get_next_line_bonus(int fd);
+int		strlength(char *string);
+
+char	*getnextline(int fd);
 void	liner(char **ln, t_g *x, int *endtotal);
+
+int		check_rectangle(t_gameinfo *s_game);
+
+int		check_close_walls(t_gameinfo *s_game);
+
+void 	create_elements(t_mapinfo *s_map);
+void	count_elements(t_gameinfo *s_game, t_playerinfo *s_play, t_mapinfo *s_map);
+int		check_elements(t_gameinfo *s_game, t_playerinfo *s_play, t_mapinfo *s_map);
+
+int		clear_path(char **map, int	line, int column, int *colectables);
+int		check_clear_path(t_gameinfo *s_game, t_playerinfo *s_play, t_mapinfo *s_map);
+
+int		check_file_name(t_gameinfo *s_game);
 
 #endif

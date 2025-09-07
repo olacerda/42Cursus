@@ -6,7 +6,7 @@
 /*   By: otlacerd <otlacerd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 18:38:18 by otlacerd          #+#    #+#             */
-/*   Updated: 2025/06/25 22:22:33 by otlacerd         ###   ########.fr       */
+/*   Updated: 2025/09/03 20:56:01 by otlacerd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,25 +16,46 @@
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
 # endif
-# ifndef MAX_BUFFERSIZE
-#  define MAX_BUFFERSIZE 4000000
+# ifndef BF
+#  define BF BUFFER_SIZE
+# endif
+# ifndef MAX
+#  define MAX 4000000
 # endif
 
-# include <unistd.h>
+# include <fcntl.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <fcntl.h>
-# include <sys/select.h>	
+# include <sys/select.h>
+# include <unistd.h>
 
 typedef struct s_g
 {
+	int		s;
+	int		e;
+	char	*n;
+	int		t;
+	char	*ln;
+	int		i;
+	char	b[BUFFER_SIZE + 1];
+	int		rb;
+}			t_g;
+
+typedef struct s_w
+{
 	int		start;
 	int		end;
-	int		readbytes;
-	char	buff[BUFFER_SIZE];
-}	t_g;
+	char	*nline;
+	int		t;
+	char	*line;
+}			t_w;
 
-char	*get_next_line_bonus(int fd);
-void	liner(char **ln, t_g *x, int *endtotal);
+typedef struct s_y
+{
+	char	*string;
+	int		index;
+}			t_y;
+
+char		*get_next_line(int fd);
 
 #endif

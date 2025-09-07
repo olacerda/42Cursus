@@ -1,40 +1,60 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: otlacerd <otlacerd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/24 18:38:18 by otlacerd          #+#    #+#             */
-/*   Updated: 2025/06/25 22:22:33 by otlacerd         ###   ########.fr       */
+/*   Created: 2025/09/01 21:16:03 by otlacerd          #+#    #+#             */
+/*   Updated: 2025/09/05 16:57:28 by otlacerd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_BONUS_H
-# define GET_NEXT_LINE_BONUS_H
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 42
+#  define BUFFER_SIZE 5
 # endif
-# ifndef MAX_BUFFERSIZE
-#  define MAX_BUFFERSIZE 4000000
+# ifndef MAX
+#  define MAX 4000000
 # endif
 
-# include <unistd.h>
+# include <fcntl.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <fcntl.h>
-# include <sys/select.h>	
+# include <sys/select.h>
+# include <unistd.h>
 
 typedef struct s_g
 {
+	char	buff[BUFFER_SIZE + 1];
+	int		rbts;
 	int		start;
 	int		end;
-	int		readbytes;
-	char	buff[BUFFER_SIZE];
-}	t_g;
+	char	*nline;
+	int		totalend;
+	char	*line;
+	int		index;
+}			t_g;
 
-char	*get_next_line_bonus(int fd);
-void	liner(char **ln, t_g *x, int *endtotal);
+typedef struct s_w
+{
+	int		end;
+	char	*nline;
+	int		tend;
+	char	*line;
+	int		index;
+}			t_w;
+
+typedef struct s_z
+{
+	char	*line;
+	int		index;
+}			t_z;
+
+
+
+char		*get_next_line(int fd);
 
 #endif

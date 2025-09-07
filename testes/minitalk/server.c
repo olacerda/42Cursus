@@ -6,14 +6,11 @@
 /*   By: otlacerd <otlacerd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 21:37:29 by otlacerd          #+#    #+#             */
-/*   Updated: 2025/09/04 21:53:08 by otlacerd         ###   ########.fr       */
+/*   Updated: 2025/09/04 21:36:36 by otlacerd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
-		// if (strsize > 5)
-		// 	string = NULL;
-		// else
 
 void	ft_putnumber(int number)
 {
@@ -38,8 +35,7 @@ void	wbits(int *intcount, unsigned char **string, int *strsize, int sig)
 
 	if (charcount <= 7 && *intcount == 42)
 	{
-		if (*string)
-			(*string)[index] = ((*string)[index]) | (sig << charcount);
+		(*string)[index] = ((*string)[index]) | (sig << charcount);
 		charcount++;
 		if (charcount == 8)
 		{
@@ -49,14 +45,13 @@ void	wbits(int *intcount, unsigned char **string, int *strsize, int sig)
 	}
 	if (index == *strsize)
 	{
-		(*string) && (write(1, "You wrote: ", 11));
 		(*string) && (write(1, *string, *strsize + (*strsize == 0)));
-		write(1, "\n", 1);
+		(*string) && (write(1, "\n", 1));
 		*intcount = 0;
 		charcount = 0;
-		*strsize = 0;
 		index = 0;
-		free(*string);
+		*strsize = 0;
+		(free(*string));
 	}
 }
 
@@ -80,7 +75,7 @@ void	handler(int sig)
 	{
 		string = malloc(strsize + 1 * sizeof(char));
 		count = -1;
-		while (++count <= strsize && (string))
+		while (++count <= strsize)
 			string[count] = '\0';
 		intcount = 42;
 	}
@@ -100,3 +95,4 @@ int	main(void)
 	while (1)
 		pause();
 }
+

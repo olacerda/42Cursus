@@ -1,14 +1,14 @@
-#******************************************************************************#
+# **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: olacerda <olacerda@student.42.fr>          +#+  +:+       +#+         #
+#    By: otlacerd <otlacerd@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/12 20:34:35 by otlacerd          #+#    #+#              #
-#    Updated: 2025/08/27 07:18:08 by olacerda         ###   ########.fr        #
+#    Updated: 2025/09/01 19:42:03 by otlacerd         ###   ########.fr        #
 #                                                                              #
-#******************************************************************************#
+# **************************************************************************** #
 
 NAME_SERVER = server
 NAME_CLIENT = client
@@ -18,16 +18,22 @@ CFLAGS = -Wall -Wextra -Werror
 
 AR = ar rcs
 
+OBJ_DIR = objt/
+
 SRC_SERVER = \
 	server.c \
 
 SRC_CLIENT = \
 	client.c \
 
+SRCS = $(SRC_SERVER) $(SRC_CLIENT)
+
 OBJ_SERVER = $(SRC_SERVER:.c=.o)
 OBJ_CLIENT = $(SRC_CLIENT:.c=.o)
 
-all: $(NAME_SERVER) $(NAME_CLIENT)
+OBJ = ($(SRCS)%.c,$(OBJ_DIR)%.o)
+
+all: $(NAME_SERVER) $(NAME_CLIENT) $(OBJ)
 
 $(NAME_SERVER): $(OBJ_SERVER)
 	$(CC) $(CFLAGS) $(OBJ_SERVER) -o $(NAME_SERVER)
@@ -35,7 +41,7 @@ $(NAME_SERVER): $(OBJ_SERVER)
 $(NAME_CLIENT): $(OBJ_CLIENT)
 	$(CC) $(CFLAGS) $(OBJ_CLIENT) -o $(NAME_CLIENT)
 
-%.o: %.c
+$(OBJ_DIR)%.o: $(SRCS)%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:

@@ -6,14 +6,13 @@
 /*   By: otlacerd <otlacerd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 23:53:38 by otlacerd          #+#    #+#             */
-/*   Updated: 2025/09/04 21:41:34 by otlacerd         ###   ########.fr       */
+/*   Updated: 2025/09/04 21:39:08 by otlacerd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
-// 	else
-// 		bitworker((unsigned int)ft_atoi(argv[1]), ft_stringjoin(argc, argv));
-
+// 		else
+// 			bitworker((unsigned int)ft_atoi(argv[1]), ft_stringjoin(argc, argv));
 // int	joinsize(int size, char **string)
 // {
 // 	int	result;
@@ -31,7 +30,6 @@
 // 	}
 // 	return (result);
 // }
-
 // char	*ft_stringjoin(int size, char **string)
 // {
 // 	char	*result;
@@ -59,6 +57,7 @@
 // 	result[resultindex] = '\0';
 // 	return (result);
 // }
+
 void	myhandler(int nbr)
 {
 	if (nbr == 12)
