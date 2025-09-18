@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   utils.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: otlacerd <otlacerd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: olacerda <olacerda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 22:09:23 by otlacerd          #+#    #+#             */
-/*   Updated: 2025/09/07 08:58:06 by otlacerd         ###   ########.fr       */
+/*   Updated: 2025/09/18 10:32:21 by olacerda         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #ifndef UTILS_H
 # define UTILS_H
@@ -35,22 +35,23 @@ typedef struct s_g
 	char	buff[BUFFER_SIZE];
 }	t_g;
 
-int		strlength(char *string);
 
+int		strlength(char *string);
+void	putnumber(int nbr);
 char	*getnextline(int fd);
 void	liner(char **ln, t_g *x, int *endtotal);
 
-int		check_rectangle(t_gameinfo *s_game);
+int		check_rectangle(t_mapinfo *s_map);
+int		check_close_walls(t_mapinfo *s_map);
+int		check_elements(t_mapinfo *s_map, t_playerinfo *s_play, t_gameinfo *s_game);
+int		check_path(t_mapinfo *s_map, t_playerinfo *s_play, t_gameinfo *s_game);
+int		check_file_name(char *name);
 
-int		check_close_walls(t_gameinfo *s_game);
 
-void 	create_elements(t_mapinfo *s_map);
-void	count_elements(t_gameinfo *s_game, t_playerinfo *s_play, t_mapinfo *s_map);
-int		check_elements(t_gameinfo *s_game, t_playerinfo *s_play, t_mapinfo *s_map);
+void 	create_elements(t_gameinfo *s_game);
+void	count_elements(t_mapinfo *s_map, t_playerinfo *s_play, t_gameinfo *s_game);
+int		path_to_colectable(char **map, int	line, int column, int *colectables);
 
-int		clear_path(char **map, int	line, int column, int *colectables);
-int		check_clear_path(t_gameinfo *s_game, t_playerinfo *s_play, t_mapinfo *s_map);
 
-int		check_file_name(t_gameinfo *s_game);
 
 #endif

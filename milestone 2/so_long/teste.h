@@ -1,32 +1,31 @@
 /******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   teste.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: olacerda <olacerda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/05 00:37:53 by otlacerd          #+#    #+#             */
-/*   Updated: 2025/09/18 10:27:34 by olacerda         ###   ########.fr       */
+/*   Created: 2025/09/12 11:00:15 by olacerda          #+#    #+#             */
+/*   Updated: 2025/09/12 11:03:09 by olacerda         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
-#include "utils.h"
+#ifndef TESTE_H
+# define TESTE_H
 
-int	strlength(char *string)
+# include <stdlib.h>
+# include <unistd.h>
+# include <fcntl.h>
+# include <stdio.h>
+
+# define BUFFER_SIZE 42
+
+typedef struct s_teste
 {
-	int	length;
+	char buff[BUFFER_SIZE];
+	int	start;
+	int	end;
+	int readbytes;
+} t_teste;
 
-	if (!string)
-		return (0);
-	length = 0;
-	while(string[length] != '\0' && string[length] != '\n')
-		length++;
-	return (length);
-}
-
-void	putnumber(int nbr)
-{
-	if (nbr > 9)
-		putnumber(nbr / 10);
-	write(1, &"0123456789"[nbr % 10], 1);
-}
+#endif

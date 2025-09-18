@@ -1,12 +1,12 @@
 /******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   so_long.h                                          :+:      :+:    :+:   */
+/*   so_long_backup2.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: olacerda <olacerda@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/04 21:54:15 by otlacerd          #+#    #+#             */
-/*   Updated: 2025/09/18 09:25:22 by olacerda         ###   ########.fr       */
+/*   Updated: 2025/09/17 16:14:24 by olacerda         ###   ########.fr       */
 /*                                                                            */
 /******************************************************************************/
 
@@ -37,7 +37,6 @@ typedef struct s_playerinfo
 	int p_line;
 	int	p_column;
 	int	colected;
-	char	letter_colected[4];
 }	t_playerinfo;
 
 typedef struct s_mapinfo
@@ -80,10 +79,10 @@ typedef struct s_all_images
 	t_image *collectable;
 	t_image *exit;
 	t_sheet *letters_sheet;
-	t_image *R;
-	t_image *X;
-	t_image *I;
-	t_image *T;
+	t_image *e;
+	t_image *x;
+	t_image *i;
+	t_image *t;
 } t_all_images;
 
 typedef struct s_all
@@ -116,9 +115,9 @@ int				count_lines(char *chosen_map);
 char 			**create_map(t_mapinfo *s_map);
 void			free_map(t_mapinfo *game);
 
-t_sheet 		*sheet_initiator(void *mlx, int sprite_number);
+t_sheet 		*sheet_initiator(void *mlx);
 t_image			*image_initiator(void *mlx, int wide, int tall);
-void			sheet_to_image_convertor(t_sheet *src, t_image *dst, t_image *background, int sprite_column, int sprite_line);
+void			sheet_to_image_convertor(t_sheet *src, t_image *dst, int sprite_number);
 t_all_images	*all_images_initiator(void *mlx);
 void			color_image(t_image *image, int flag);
 
@@ -131,7 +130,5 @@ void			update_game(t_all *all);
 void 			make_sound(long frequency);
 int				game_loop(void *arg);
 int				check_map_size(t_all *all);
-int				check_letters_colected(t_all *all);
-
 
 #endif
